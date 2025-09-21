@@ -1,50 +1,57 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
 // Nuevas importaciones de middleware
 const helmet = require('helmet');
 const morgan = require('morgan');
 const session = require('express-session');
-const xss = require('xss-clean');
 const passport = require('passport');
 const rateLimit = require('express-rate-limit');
+const MongoStore = require('connect-mongo');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware de seguridad y de gestión
-app.use(express.json()); // Permite que Express lea el cuerpo de las peticiones
-app.use(express.urlencoded({ extended: false })); // Permite que Express lea datos de formularios
-app.use(helmet()); // Ayuda a proteger de vulnerabilidades
-app.use(morgan('dev')); // Registra las peticiones HTTP
-app.use(xss()); // Limpia los datos de ataques XSS
+// Middleware de análisis del cuerpo (¡SIEMPRE deben ir primero!)
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Middleware de seguridad y gestión
+// Estos middlewares deben ejecutarse después de que el cuerpo ha sido procesado
+app.use(cors());
+app.use(helmet());
+app.use(morgan('dev'));
 
 // Configuración de la sesión
-const MongoStore = require('connect-mongo');
 app.use(session({
-    secret: process.env.SESSION_SECRET,//variable de entorno
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
 }));
 
-// Inicializar Passport para la autenticación
+// Inicializar Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Configuración del límite de peticiones para prevenir ataques de fuerza bruta
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutos
-    max: 50, // Máximo 50 peticiones por IP en 15 minutos
+// Configuración del límite de peticiones
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 50,
     message: 'Demasiadas peticiones desde esta IP, por favor intente de nuevo después de 15 minutos.'
-});
-app.use(limiter);
+}));
+
 
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('¡Conectado a MongoDB!'))
     .catch(err => console.error('Error al conectar a MongoDB:', err));
+
+// --- RUTAS ---
+// Las rutas siempre deben ir al final del middleware para que las peticiones se procesen correctamente
+app.use('/api/auth', require('./routes/auth'));
 
 app.get('/', (req, res) => {
     res.send('¡Servidor de backend funcionando!');

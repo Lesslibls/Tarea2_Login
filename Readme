@@ -38,14 +38,21 @@ Paso 13 en el archivo auth.js dentro de routes se agregara el codigo necesario p
             - helmet:Ayuda a protegerla de vulnerabilidades comunes al configurar automáticamente cabeceras HTTP seguras. Es muy fácil de usar y muy efectivo.
             - Se encarga de registrar las peticiones que llegan a nuestro servidor, lo que es súper útil para depurar problemas y monitorear la actividad.
             - Passport.js : middleware de autenticación flexible para Node.js.
-Paso 15 configurar paquetes instalados en server.js
-
-
-
-
-
-
-
+Paso 15 configurar middleware de paquetes instalados en server.js
+🛠️Paso 16 intalar: 
+        npm install connect-mongo
+            //para que express sesion guarde la informacion en la base de datos
+Paso 17 importamos el archivo de rutas al archivo server
+        // Rutas
+        app.use('/api/auth', require('./routes/auth'));
+---------------------------------------------------------------------------------------------
+Se inicia la parte de interfaz
+Paso 1 🔧 ejecutar:
+        npx create-react-app frontend
+        cd frontend
+        npm install react-router-dom axios bootstrap
+        ✨npm start
+Paso 2 dentro de frontend en src, crear la carpta components con el archivo Welcome.js y Register.js
 
 
 

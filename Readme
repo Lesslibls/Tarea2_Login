@@ -1,2 +1,51 @@
 Link:https://github.com/Lesslibls/Tarea2_Login.git
 __________________________________________________________________________________________________
+Descripción: 
+
+-----------------------------------------------------------------------------------------------
+Pasos...
+
+Paso 1 crear 📂carpetas backend y frontend
+Paso 2 en consola💻: cd backend --> para entrar
+Paso 3 preparar el entorno🖱️ de Node.js --> npm init -y
+Paso 4 Instalar los paquetes📦 necesarios
+    npm install express mongoose bcrypt-nodejs dotenv cors
+    npm install nodemon --save-dev
+        -express: Para crear el servidor web.
+        -mongoose: Para conectarnos a la base de datos de MongoDB.
+        -bcrypt-nodejs: Para encriptar las contraseñas de los usuarios.
+        -dotenv: Para gestionar las variables de entorno, como la URL de la base de datos.
+        -cors: Para permitir que nuestra aplicación de React se comunique con el servidor de Node.js.
+        -nodemon: Para que el servidor se reinicie automáticamente cada vez que hagamos un cambio.
+
+Paso 5 crear archivo📋 principal llamado server.js
+✨Paso 6 para correr el proyecto, ejecutar: npx nodemon server.js
+Paso 7 configurar archivo docker🐳
+✨Paso 8 levantamos el contenedor con: docker-compose up -d 
+Paso 9 crear archivo .env en backend para la configuracion de la base de datos
+Paso 10 configurar archivo .env y server.js
+Paso 11 crear carpeta routes dentro de la carpeta backend con el archivo auth.js para configurar las rutas de usuario.
+Paso 12 crear carpeta models dentro de backend con el archivo User.js archivo que definira la vista de como se veran los datos del usuaui en la base de datos de MongoDB y se define la estructura.
+Paso 13 en el archivo auth.js dentro de routes se agregara el codigo necesario para manejar el registro y el inicio de sesión.
+🛠️Paso 14 instalacion de herramientas para mayor seguridad del sistema:
+    Ejecutar: 
+        npm install express-rate-limit express-session xss-clean
+            - express-rate-limit:Previene ataques al limitar cuántas solicitudes puede hacer una misma dirección IP en un período de tiempo.
+           - express-session: Ayuda a gestionar las sesiones de los usuarios, lo que nos permitirá mantenerlos   "logueados" después de iniciar sesión.
+            - xss-clean: Protegerá nuestra aplicación de ataques de tipo XSS (Cross-Site Scripting) al limpiar los datos que llegan del usuario.
+    Ejecutar:
+        npm install helmet morgan passport passport-local
+            - helmet:Ayuda a protegerla de vulnerabilidades comunes al configurar automáticamente cabeceras HTTP seguras. Es muy fácil de usar y muy efectivo.
+            - Se encarga de registrar las peticiones que llegan a nuestro servidor, lo que es súper útil para depurar problemas y monitorear la actividad.
+            - Passport.js : middleware de autenticación flexible para Node.js.
+Paso 15 configurar paquetes instalados en server.js
+
+
+
+
+
+
+
+
+
+

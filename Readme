@@ -1,6 +1,18 @@
-Link:https://github.com/Lesslibls/Tarea2_Login.git
-__________________________________________________________________________________________________
-Descripción: 
+Descripción:
+Este proyecto es una aplicación web de pila completa (full-stack) que implementa un sistema de autenticación de usuarios robusto y seguro. Construida con la arquitectura MERN (MongoDB, Express, React, Node.js), la aplicación maneja el registro y el inicio de sesión de usuarios, asegurando que solo los usuarios autenticados puedan acceder a las rutas protegidas. El proyecto utiliza Docker para la contenerización de la base de datos y la aplicación, lo que garantiza un entorno de desarrollo consistente y una implementación más sencilla.
+
+Características y Tecnologías Clave
+    - Autenticación de Usuarios: Se implementaron rutas seguras para el registro y el inicio de sesión.
+
+    - Encriptación de Contraseñas: Las contraseñas se gestionan de forma segura utilizando la librería bcryptjs para el hash criptográfico antes de ser almacenadas en la base de datos.
+
+    - Gestión de Estado de Sesión: El estado de inicio de sesión se mantiene en el servidor usando express-session y en el cliente a través de localStorage para proteger las rutas del frontend.
+
+    - Ruteo Condicional: El frontend utiliza react-router-dom para redirigir a los usuarios no autenticados a la página de login.
+
+    - API RESTful: La aplicación se comunica a través de una API RESTful que maneja las solicitudes del cliente y las respuestas del servidor.
+
+    - Contenerización: Se utiliza Docker y docker-compose para el entorno de desarrollo, asegurando que los servicios de mongo y mongo-express se ejecuten de manera independiente y conectada.
 
 -----------------------------------------------------------------------------------------------
 Pasos...
@@ -29,10 +41,9 @@ Paso 12 crear carpeta models dentro de backend con el archivo User.js archivo qu
 Paso 13 en el archivo auth.js dentro de routes se agregara el codigo necesario para manejar el registro y el inicio de sesión.
 🛠️Paso 14 instalacion de herramientas para mayor seguridad del sistema:
     Ejecutar: 
-        npm install express-rate-limit express-session xss-clean
+        npm install express-rate-limit express-session
             - express-rate-limit:Previene ataques al limitar cuántas solicitudes puede hacer una misma dirección IP en un período de tiempo.
            - express-session: Ayuda a gestionar las sesiones de los usuarios, lo que nos permitirá mantenerlos   "logueados" después de iniciar sesión.
-            - xss-clean: Protegerá nuestra aplicación de ataques de tipo XSS (Cross-Site Scripting) al limpiar los datos que llegan del usuario.
     Ejecutar:
         npm install helmet morgan passport passport-local
             - helmet:Ayuda a protegerla de vulnerabilidades comunes al configurar automáticamente cabeceras HTTP seguras. Es muy fácil de usar y muy efectivo.
@@ -46,13 +57,41 @@ Paso 17 importamos el archivo de rutas al archivo server
         // Rutas
         app.use('/api/auth', require('./routes/auth'));
 ---------------------------------------------------------------------------------------------
-Se inicia la parte de interfaz
+🎨Interfaz
 Paso 1 🔧 ejecutar:
         npx create-react-app frontend
         cd frontend
         npm install react-router-dom axios bootstrap
         ✨npm start
+
+Paso 2 Configurar las Rutas en App.js
+
 Paso 2 dentro de frontend en src, crear la carpta components con el archivo Welcome.js y Register.js
+
+Se verifica ejecuta en backend:
+        npm uninstall xss-clean
+-------------------------------------------------------------------------------------------------------
+Para adceder a mongo express
+    ejecutar:
+        docker-compose up -d
+    ir a:
+        http://localhost:8081
+    Inicie sesión y vea su base de datos
+        Nombre de usuario: user
+        Contraseña: clave
+-----------------------------------------------------------------------------------------------------------
+ Proteger las Rutas en el Backend
+    Paso 1 Se creara una nueva carpeta llamada middleware dentro de tu carpeta backend. Luego, se crea un archivo llamado 
+    Paso 2 se modifica el archivo de routes
+
+    en backend
+        npm install bcryptjs
+----------------------------------------------------------------------------------------------------------------
+Para hacer que al ejecutar npm start nos redirija a una pagina de inicio...
+Paso 1 Crea un componente llamado Home.js y añade su codigo
+Paso 2 añade las rutas en el archivo App.js
+
+
 
 
 

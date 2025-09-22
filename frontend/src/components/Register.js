@@ -3,76 +3,106 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-    // 1. Estados para cada campo del formulario
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [image, setImage] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        image: ''
+    });
+
+    const [msg, setMsg] = useState('');
     const navigate = useNavigate();
+
+    const { name, email, phone, password, image } = formData;
+
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
         try {
-            // 2. Usamos Axios para hacer una petición POST al endpoint de registro
-            await axios.post('http://localhost:5000/api/auth/register', {
-                name,
-                email,
-                phone,
-                image,
-                password,
-            });
-
-            // 3. Si la petición es exitosa, redirigimos al usuario a la página de login
-            alert('¡Usuario registrado exitosamente!');
-            navigate('/login');
+            const res = await axios.post('http://localhost:5000/api/auth/register', formData);
+            setMsg(res.data.msg);
+            setTimeout(() => navigate('/login'), 2000);
         } catch (err) {
-            // 4. Si hay un error, mostramos un mensaje de alerta
-            console.error(err.response.data);
-            alert(err.response.data.msg);
+            setMsg(err.response.data.msg);
         }
     };
 
     return (
-        <form onSubmit={onSubmit}>
-            <h2>Registro de Usuario</h2>
-            <input
-                type="text"
-                placeholder="Nombre"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                required
-            />
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-            />
-            <input
-                type="tel"
-                placeholder="Teléfono"
-                value={phone}
-                onChange={e => setPhone(e.target.value)}
-                required
-            />
-            <input
-                type="text"
-                placeholder="URL de la Imagen"
-                value={image}
-                onChange={e => setImage(e.target.value)}
-                required
-            />
-            <input
-                type="password"
-                placeholder="Contraseña"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-            />
-            <button type="submit">Registrar</button>
-        </form>
+        // Contenedor para centrar la tarjeta vertical y horizontalmente
+        <div className="d-flex justify-content-center align-items-center vh-100">
+            {/* La tarjeta con sombra y padding */}
+            <div className="card p-4 shadow-lg" style={{ width: '100%', maxWidth: '400px' }}>
+                <div className="text-center mb-4">
+                    <img src="/logo.png" alt="Logo" className="img-fluid mb-3" style={{ maxWidth: '100px' }} />
+                    <h2 className="card-title">Crear una cuenta</h2>
+                </div>
+                <form onSubmit={onSubmit}>
+                    <div className="mb-3">
+                        <label className="form-label">Nombre</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="name"
+                            value={name}
+                            onChange={onChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Email</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            name="email"
+                            value={email}
+                            onChange={onChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Teléfono</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="phone"
+                            value={phone}
+                            onChange={onChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Contraseña</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            name="password"
+                            value={password}
+                            onChange={onChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">URL de la imagen</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="image"
+                            value={image}
+                            onChange={onChange}
+                        />
+                    </div>
+                    {/* Botón en color azul (btn-primary) y que ocupe todo el ancho (w-100) */}
+                    <button type="submit" className="btn btn-primary w-100">Registrarme</button>
+                </form>
+                {msg && (
+                    <div className={`mt-3 alert ${msg.includes('exitosamente') ? 'alert-success' : 'alert-danger'}`}>
+                        {msg}
+                    </div>
+                )}
+            </div>
+        </div>
     );
 };
 
